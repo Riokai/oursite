@@ -1,0 +1,11 @@
+{
+  "name": "oursite-server",
+  "version": "0.0.1",
+  "description": "oursite server side base express",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "author": "Kai",
+  "license": "ISC"
+}
