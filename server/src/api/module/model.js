@@ -72,5 +72,12 @@ ModuleSchema
 		return color.length;
 	}, 'Module color cannot be blank');
 
+let moduleModel
 
- export default mongoose.model('Module', ModuleSchema);
+try {
+  moduleModel = mongoose.model('Module', ModuleSchema)
+} catch (e) {
+  moduleModel = mongoose.model('Module')
+}
+
+export default moduleModel

@@ -1,10 +1,7 @@
 import should from 'should'
-import request from 'supertest'
-import app from '../../src/app'
 import Module from '../../src/api/module/model'
 
-describe('API Module', function() {
-
+describe('Model Module', function() {
   before(function(done) {
     Module.remove().exec().then(function() {
       done();
@@ -17,76 +14,87 @@ describe('API Module', function() {
     });
   });
 
-  it('读取所有模块', function(done) {
-    request(app)
-      .get('/api/module')
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function(err, res) {
-        if (err) return done(err);
-        res.body.should.be.instanceof(Array);
-        done();
-      });
+  it('初始时模块数为0', function(done) {
+    Module.find({}, function(err, modules) {
+      modules.should.have.length(0);
+      done();
+    });
   });
 
+  it('保存模块名为空的模块时应该失败', function(done) {
+    var moduleNameEmpty = new Module({
+      name: '',
+      href: 'http://www.baidu.com',
+      color: 'red'
+    });
 
-  it('保存一个合法模块应该成功', function (done) {
-    var module = {
+    moduleNameEmpty.save(function(err) {
+      should.exist(err);
+      done();
+    })
+  });
+
+  it('保存一个已经被使用的模块名时应该失败', function (done) {
+    var name = '时光轴';
+
+    var module = new Module({
+      name: name,
+      color: 'red',
+      href: 'wwww'
+    });
+
+    var module2 = new Module({
+      name: name,
+      color: 'green',
+      href: 'www'
+    });
+
+    module.save(function() {
+      module2.save(function(err) {
+        should.exist(err);
+        done();
+      });
+    });
+  });
+
+  it('保存链接为空的模块时应该失败', function(done) {
+    var moduleHrefEmpty = new Module({
+      name: '时光轴',
+      href: '',
+      color: 'red'
+    });
+
+    moduleHrefEmpty.save(function(err) {
+      should.exist(err);
+      done();
+    })
+  });
+
+  it('保存颜色为空的模块时应该失败', function(done) {
+    var moduleColorEmpty = new Module({
+      name: '时光轴',
+      href: 'http://www.baidu.com',
+      color: ''
+    });
+
+    moduleColorEmpty.save(function(err) {
+      should.exist(err);
+      done();
+    })
+  });
+
+  it('保存一个合法的模块时应该成功', function (done) {
+    var module = new Module({
       name: '时光轴',
       href: 'http://www.baidu.com',
       color: 'red'
-    };
+    });
 
-    request(app)
-      .post('/api/module')
-      .type('json')
-      .send(module)
-      .expect(201)
-      .expect('Content-Type', /json/)
-      .end(function(err, res) {
-        if (err) return done(err);
-
-        should.not.exist(err);
-        should.exist(res);
-        done();
-      });
+    module.save(function(err, result) {
+      should.not.exist(err);
+      should.exist(result);
+      done();
+    });
   });
 
-  it('更新一个合法模块应该成功', function (done) {
-    var module = {
-      name: '时光轴',
-      href: 'http://www.baidu.com',
-      color: 'red'
-    };
-
-    var id = '';
-
-    request(app)
-      .post('/api/module')
-      .type('json')
-      .send(module)
-      .expect(201)
-      .expect('Content-Type', /json/)
-      .end(function(err, res) {
-        if (err) return done(err);
-
-        id = res.body._id;
-
-        request(app)
-          .put('/api/module/' + id)
-          .type('json')
-          .send({
-            name: '留言板'
-          })
-          .expect(200)
-          .expect('Content-Type', /json/)
-          .end(function(err, res) {
-            if (err) return done(err);
-
-            should.not.exist(err);
-            should.exist(res);
-            done();
-          })
-      });
-  });
 });
