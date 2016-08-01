@@ -1,5 +1,78 @@
-.duck {
+$header-height: 75px;
+
+$section-width: 180px;
+$section-margin: 30px;
+$section-font-size: 26px;
+
+.module {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  background: url("../assets/bg_main.jpg") no-repeat;
+  background-size: cover;
+  padding: 0 6%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+
+  a {
+    font-size: 20px;
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+    outline: none;
+
+    &:hover {
+      // color: #2a6496;
+    }
+  }
+}
+
+.header-title, .header-info {
+  height: 75px;
+  line-height: 75px;
+  color: #fff;
+
+  h2 {
+    font-size: 30px;
+    line-height: 75px;
+    margin: 20px 0 10px 0;
+  }
+}
+
+.header-info {
+  padding-top: 25px;
+}
+
+.content {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+}
+
+.module-item {
   display: block;
-  width: 120px;
-  margin: 1.5rem auto;
+	width: $section-width;
+	height: $section-width;
+	line-height: $section-width;
+	border-radius: 50%;
+	text-align: center;
+	color: #fff;
+	margin: $section-margin;
+	font-size: $section-font-size;
+	cursor: pointer;
+	transition: all .4s ease;
+	transform: scale(.8);
+
+  &:hover {
+    animation-play-state: paused;
+		transform: scale(1);
+		animation-duration: inherit;
+  }
 }

@@ -4,6 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import config from '../config'
 import _debug from 'debug'
+import path from 'path'
 
 const debug = _debug('app:webpack:config')
 const paths = config.utils_paths
@@ -15,6 +16,9 @@ const webpackConfig = {
   target: 'web',
   devtool: config.compiler_devtool,
   resolve: {
+    alias: {
+      static: path.join(__dirname, '../src/static')
+    },
     root: paths.client(),
     extensions: ['', '.js', '.jsx', '.json']
   },
