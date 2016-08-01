@@ -1,27 +1,18 @@
 import should from 'should'
-// import mongoose from 'mongoose'
 import Module from '../../src/api/module/model'
 
-describe('API Module', function() {
+describe('API: Module', function() {
 
   before(function(done) {
     Module.remove().exec().then(function() {
       done()
     });
-  });
-
-  // afterEach(function() {
-  //   mongoose.connection.close()
-  // })
-
-  // after(function() {
-  //   server.close()
-  // })
+  })
 
   afterEach(function(done) {
     Module.remove().exec().then(function() {
-      done();
-    });
+      done()
+    })
   })
 
   it('读取所有模块', function(done) {
@@ -30,11 +21,11 @@ describe('API Module', function() {
       .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
-        if (err) return done(err);
-        res.body.should.be.instanceof(Array);
-        done();
-      });
-  });
+        if (err) return done(err)
+        res.body.should.be.instanceof(Array)
+        done()
+      })
+  })
 
 
   it('保存一个合法模块应该成功', function (done) {
@@ -42,7 +33,7 @@ describe('API Module', function() {
       name: '时光轴',
       href: 'http://www.baidu.com',
       color: 'red'
-    };
+    }
 
     request(app)
       .post('/api/module')
@@ -51,21 +42,21 @@ describe('API Module', function() {
       .expect(201)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
-        if (err) return done(err);
-        should.not.exist(err);
-        should.exist(res);
-        done();
-      });
-  });
+        if (err) return done(err)
+        should.not.exist(err)
+        should.exist(res)
+        done()
+      })
+  })
 
   it('更新一个合法模块应该成功', function (done) {
     var module = {
       name: '时光轴',
       href: 'http://www.baidu.com',
       color: 'red'
-    };
+    }
 
-    var id = '';
+    var id = ''
 
     request(app)
       .post('/api/module')
@@ -74,9 +65,9 @@ describe('API Module', function() {
       .expect(201)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
-        if (err) return done(err);
+        if (err) return done(err)
 
-        id = res.body._id;
+        id = res.body._id
 
         request(app)
           .put('/api/module/' + id)
@@ -87,12 +78,12 @@ describe('API Module', function() {
           .expect(200)
           .expect('Content-Type', /json/)
           .end(function(err, res) {
-            if (err) return done(err);
+            if (err) return done(err)
 
-            should.not.exist(err);
-            should.exist(res);
-            done();
+            should.not.exist(err)
+            should.exist(res)
+            done()
           })
-      });
-  });
-});
+      })
+  })
+})

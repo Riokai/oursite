@@ -10,13 +10,13 @@ const PORT = process.env.PORT || 5000
 const app = express()
 
 routes(app)
-connection()
 
-if(!module.parent) {
+if (mongoose.connection.readyState === 0) {
+  connection()
+
   app.listen(PORT, () => {
     debug(`Server running on http://localhost:${PORT}`)
   })
 }
-
 
 export default app

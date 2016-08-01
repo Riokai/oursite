@@ -10,16 +10,7 @@ mongoose.Promise = global.Promise
 export default function () {
   mongoose.connect(config.mongo.uri)
 
-  // let connection
-  //
-  // if(!module.parent) {
-  //  connection = mongoose.connection
-  // }
-
   const connection = mongoose.connection
-
-  console.log('create cnnection')
-
 
   connection.on('connected', () => {
     debug(`connected to ${config.mongo.uri}`)

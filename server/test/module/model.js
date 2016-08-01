@@ -1,7 +1,7 @@
 import should from 'should'
 import Module from '../../src/api/module/model'
 
-describe('Model Module', function() {
+describe('Model: Module', function() {
   before(function(done) {
     Module.remove().exec().then(function() {
       done();
