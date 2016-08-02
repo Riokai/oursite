@@ -2,15 +2,16 @@ import express from 'express'
 import mongoose from 'mongoose'
 import _debug from 'debug'
 
-import routes from './routes'
+import setRoutes from './routes'
 import connection from './config/connection'
+import setConfig from './config/express'
 
 const debug = _debug('app:server')
 const PORT = process.env.PORT || 5000
 const app = express()
 
-routes(app)
-
+setConfig(app)
+setRoutes(app)
 connection()
 
 app.listen(PORT, () => {

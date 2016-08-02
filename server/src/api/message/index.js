@@ -1,13 +1,14 @@
 import express from 'express'
 import { query, create, destroy } from './controller'
+import { isAuthenticated } from '../../auth/service'
 
 const router = express.Router()
 
-router.get('/', query)
+router.get('/', isAuthenticated(), query)
 // router.get('/:id', show)
-router.post('/', create)
+router.post('/', isAuthenticated(), create)
 // router.put('/:id', update)
 // router.patch('/:id', update)
-router.delete('/:id', destroy)
+router.delete('/:id', isAuthenticated(), destroy)
 
 export default router

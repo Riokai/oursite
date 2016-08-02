@@ -4,7 +4,7 @@ import config from '../config/environment'
 import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
 import compose from 'composable-middleware'
-import User from './api/user/model'
+import User from '../api/user/model'
 
 const validateJwt = expressJwt({ secret: config.secrets.session });
 
@@ -56,7 +56,9 @@ export function hasRole(roleRequired) {
  * Returns a jwt token signed by the app secret
  */
 export function signToken(id) {
-  return jwt.sign({ _id: id }, config.secrets.session, { expiresInMinutes: 60*5 });
+  const token = jwt.sign({ _id: id }, config.secrets.session, { expiresInMinutes: 60*5 })
+  console.log('generator', token);
+  return token
 }
 
 /**

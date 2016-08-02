@@ -21,13 +21,15 @@ export function index (req, res) {
 /**
  * Creates a new user
  */
-export create = function (req, res, next) {
+export function create (req, res) {
   var newUser = new User(req.body)
+
   newUser.provider = 'local'
   newUser.role = 'user'
-  newUser.save(function(err, user) {
+  
+  newUser.save((err, user) => {
     if (err) return validationError(res, err)
-    var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 })
+    var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresIn: '2 days' })
     res.json({ token: token })
   })
 }
@@ -35,7 +37,7 @@ export create = function (req, res, next) {
 /**
  * Get a single user
  */
-export show = function (req, res, next) {
+export function show (req, res, next) {
   var userId = req.params.id
 
   User.findById(userId, function (err, user) {
