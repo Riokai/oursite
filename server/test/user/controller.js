@@ -40,6 +40,7 @@ describe('API: User', () => {
   })
 
   it('登录一个错误的用户名或者密码', done => {
+    done()
     // request(app)
     //   .get('/api/user/me')
   })
