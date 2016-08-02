@@ -1,7 +1,7 @@
-var moment = require('moment');
+var moment = require('moment')
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    ObjectId = Schema.Types.ObjectId;
+    ObjectId = Schema.Types.ObjectId
 
 var MessageSchema = new Schema({
   from: {
@@ -38,31 +38,31 @@ var MessageSchema = new Schema({
 			default: Date.now()
 		}
 	}
-});
+})
 
 // Validate empty content
 MessageSchema
   .path('content')
   .validate(function(content) {
-    return content.length;
-  }, 'Content cannot be blank');
+    return content.length
+  }, 'Content cannot be blank')
 
 // Validate empty from ObjectId
 MessageSchema
   .path('from')
   .validate(function(from) {
-    return from.length;
-  }, 'From ObjectId cannot be blank');
+    return from.length
+  }, 'From ObjectId cannot be blank')
 
 MessageSchema.pre('save', function(next) {
 	if (this.isNew) {
-		this.meta.createAt = this.updateAt = Date.now();
-		this.createTime = moment().format('YYYY-MM-DD HH:mm:ss');
+		this.meta.createAt = this.updateAt = Date.now()
+		this.createTime = moment().format('YYYY-MM-DD HH:mm:ss')
 	} else {
-		this.updateAt = Date.now();
+		this.updateAt = Date.now()
 	}
 
-	next();
-});
+	next()
+})
 
-module.exports = mongoose.model('Message', MessageSchema);
+export default mongoose.model('Message', MessageSchema)

@@ -11,12 +11,10 @@ const app = express()
 
 routes(app)
 
-if (mongoose.connection.readyState === 0) {
-  connection()
+connection()
 
-  app.listen(PORT, () => {
-    debug(`Server running on http://localhost:${PORT}`)
-  })
-}
+app.listen(PORT, () => {
+  debug(`Server running on http://localhost:${PORT}`)
+})
 
 export default app

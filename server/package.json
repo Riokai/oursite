@@ -27,7 +27,7 @@
       }
     },
     "test:watch": {
-      "command": "mocha --recursive --watch --compilers js:babel-register",
+      "command": "nodemon --exec 'mocha --recursive --compilers js:babel-register'",
       "env": {
         "NODE_ENV": "test",
         "DEBUG": "app:*",
@@ -52,7 +52,10 @@
   "dependencies": {
     "better-npm-run": "0.0.10",
     "debug": "^2.2.0",
+    "jsonwebtoken": "^7.1.7",
     "lodash": "^4.14.1",
-    "moment": "^2.14.1"
+    "moment": "^2.14.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
   }
 }

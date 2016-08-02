@@ -18,66 +18,58 @@ const ModuleSchema = new Schema({
   		default: Date.now()
   	}
   }
-});
+})
 
 ModuleSchema.pre('save', function(next) {
 	if (this.isNew) {
-		this.meta.createAt = this.updateAt = Date.now();
+		this.meta.createAt = this.updateAt = Date.now()
 	} else {
-		this.updateAt = Date.now();
+		this.updateAt = Date.now()
 	}
 
-	next();
-});
+	next()
+})
 
 // Validate empty name
 ModuleSchema
 	.path('name')
 	.validate(function(name) {
-		return name.length;
-	}, 'Module name cannot be blank');
+		return name.length
+	}, 'Module name cannot be blank')
 
 // Validate name is not taken
 ModuleSchema
 	.path('name')
 	.validate(function(value, respond) {
-		const self = this;
+		const self = this
 
 		this.constructor.findOne({
 			name: value
 		}, function(err, module) {
-			if (err) throw err;
+			if (err) throw err
 
 			if (module) {
-				if (self.id === module.id) return respond(true);
+				if (self.id === module.id) return respond(true)
 
-				return respond(false);
+				return respond(false)
 			}
 
-			respond(true);
-		});
-	}, 'The specified name is already in use.');
+			respond(true)
+		})
+	}, 'The specified name is already in use.')
 
 // Validate empty href
 ModuleSchema
 	.path('href')
 	.validate(function(href) {
-		return href.length;
-	}, 'Module href cannot be blank');
+		return href.length
+	}, 'Module href cannot be blank')
 
 // Validate empty color
 ModuleSchema
 	.path('color')
 	.validate(function(color) {
-		return color.length;
-	}, 'Module color cannot be blank');
+		return color.length
+	}, 'Module color cannot be blank')
 
-let moduleModel
-
-try {
-  moduleModel = mongoose.model('Module', ModuleSchema)
-} catch (e) {
-  moduleModel = mongoose.model('Module')
-}
-
-export default moduleModel
+export default mongoose.model('Module', ModuleSchema)
