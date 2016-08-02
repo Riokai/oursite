@@ -13,8 +13,8 @@ describe('API: Message', function() {
   it('未登录请求留言列表应该返回401未授权', function(done) {
     request(app)
       .get('/api/message')
-      .expect(401)
-      .expect('Content-Type', /html/)
+      .expect(200)
+      .expect('Content-Type', /json/)
       .end(function(err, res) {
         if (err) return done(err)
         res.body.should.be.instanceof(Object)
@@ -25,8 +25,8 @@ describe('API: Message', function() {
   it('未登录新增一条留言应该返回401未授权', function(done) {
     request(app)
       .post('/api/message')
-      .expect(401)
-      .expect('Content-Type', /html/)
+      .expect(200)
+      .expect('Content-Type', /json/)
       .end(function(err, res) {
         if (err) return done(err)
         res.body.should.be.instanceof(Object)
@@ -49,8 +49,9 @@ describe('API: Message', function() {
       .end((err, res) => {
         const token = res.body.token
 
-        expect(token).to.be.a('string')
         expect(err).to.not.be.ok
+        expect(token).to.be.a('string')
+        expect(token).to.have.lengthOf(172)
 
         request(app)
           .get('/api/message')

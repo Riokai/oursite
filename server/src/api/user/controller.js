@@ -1,7 +1,7 @@
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
 import User from './model'
-import config from '../../config/environment'
+import { signToken } from '../../auth/service'
 
 const validationError = function(res, err) {
   return res.status(422).json(err)
@@ -26,11 +26,13 @@ export function create (req, res) {
 
   newUser.provider = 'local'
   newUser.role = 'user'
-  
+
   newUser.save((err, user) => {
     if (err) return validationError(res, err)
-    var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresIn: '2 days' })
-    res.json({ token: token })
+
+    const token = signToken(user._id)
+
+    res.json({ token })
   })
 }
 
@@ -86,16 +88,10 @@ export function me (req, res, next) {
   var userId = req.user._id
   User.findOne({
     _id: userId
-  }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
+  }, '-salt -hashedPassword', (err, user) => { // don't ever give out the password or salt
     if (err) return next(err)
     if (!user) return res.status(401).send('Unauthorized')
+
     res.json(user)
   })
-}
-
-/**
- * Authentication callback
- */
-export function authCallback (req, res, next) {
-  res.redirect('/')
 }

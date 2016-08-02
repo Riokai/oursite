@@ -49,7 +49,7 @@ describe('Model: User', function() {
     })
   })
 
-  it("如果密码错误，用户应该被成功认证", function() {
+  it("如果密码正确，用户应该被成功认证", function() {
     return user.authenticate('password').should.be.true
   })
 

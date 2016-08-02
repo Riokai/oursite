@@ -9,7 +9,7 @@ export function setup (User, config) {
     function(email, password, done) {
       User.findOne({
         email: email.toLowerCase()
-      }, function(err, user) {
+      }, (err, user) => {
         if (err) return done(err)
 
         if (!user) {
@@ -18,6 +18,7 @@ export function setup (User, config) {
         if (!user.authenticate(password)) {
           return done(null, false, { message: 'This password is not correct.' })
         }
+        
         return done(null, user)
       })
     }

@@ -107,7 +107,7 @@ UserSchema
  */
 UserSchema.methods = {
   /**
-   * Authenticate - check if the passwords are the same
+   * Authenticate - 检查密码是否一致
    *
    * @param {String} plainText
    * @return {Boolean}
