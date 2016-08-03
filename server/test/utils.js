@@ -38,6 +38,7 @@ export function createMessage (token, cb) {
       expect(res.body.code).to.equal(Msg.success.code)
       expect(res.body.data).to.be.a('object')
       expect(res.body.data.content).to.equal(message.content)
+      
       cb(res.body.data)
     })
 }
