@@ -5,8 +5,14 @@ import mongoose, {
 const { ObjectId } = Schema.Types
 
 const TimelineSchema = new Schema({
-  date: String,
-  intro: String,
+  date: {
+    type: String,
+    required: true
+  },
+  intro: {
+    type: String,
+    required: true
+  },
   media: String,
   author: {
     type: ObjectId,

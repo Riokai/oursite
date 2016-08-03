@@ -21,7 +21,7 @@ export default {
   },
   noContent: {
     msg: '不能为空',
-    code: 404
+    code: 410
   },
   noRecord: {
     msg: '没有找到该条记录',

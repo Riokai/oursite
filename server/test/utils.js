@@ -10,6 +10,11 @@ export const message = {
   content: '12345'
 }
 
+export const timeline = {
+  intro: '我是一条时光轴',
+  date: '2015-5-3'
+}
+
 export function signin (cb) {
   request(app)
     .post('/api/user')
@@ -38,7 +43,24 @@ export function createMessage (token, cb) {
       expect(res.body.code).to.equal(Msg.success.code)
       expect(res.body.data).to.be.a('object')
       expect(res.body.data.content).to.equal(message.content)
-      
+
+      cb(res.body.data)
+    })
+}
+
+export function createTimeline (token, cb) {
+  request(app)
+    .post('/api/timeline')
+    .set('Authorization', `Bearer ${token}`)
+    .send(timeline)
+    .expect(200)
+    .end((err, res) => {
+      expect(err).to.be.not.ok
+      expect(res).to.be.a('object')
+      expect(res.body.code).to.equal(Msg.success.code)
+      expect(res.body.data).to.be.a('object')
+      // expect(res.body.data.content).to.equal(message.content)
+
       cb(res.body.data)
     })
 }

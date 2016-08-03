@@ -7,7 +7,6 @@ export function query (req, res) {
     .find({})
     .sort({'meta.createAt':-1})
     .exec(function(err, timelines) {
-      console.log('timelines', timelines);
       if(err) { return handleError(res, err) }
 
       return res.status(200).json({
@@ -21,12 +20,11 @@ export function query (req, res) {
 export function create (req, res) {
   TimelineModel.create({
     ...req.body,
-    from: req.user._id
-  }, function(err, message) {
+  }, function(err, timeline) {
     if(err) { return handleError(res, err) }
     return res.status(200).json({
       ...Msg.success,
-      data: message
+      data: timeline
     })
   })
 }

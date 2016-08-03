@@ -1,7 +1,11 @@
 import should from 'should'
 import User from '../../src/api/user/model'
 import Msg from '../../src/config/message'
-import { signin, createMessage } from '../utils'
+import {
+  signin,
+  createMessage,
+  createTimeline
+} from '../utils'
 
 describe('API: Timeline', function() {
 
@@ -12,7 +16,7 @@ describe('API: Timeline', function() {
     })
   })
 
-  it('未登录请求留言列表应该返回错误', (done) => {
+  it('未登录请求时光轴列表应该返回错误', (done) => {
     request(app)
       .get('/api/timeline')
       .expect(200)
@@ -24,7 +28,7 @@ describe('API: Timeline', function() {
       })
   })
 
-  it('未登录新增一条留言应该返回未授权', (done) => {
+  it('未登录新增一条时间轴应该返回未授权', (done) => {
     request(app)
       .post('/api/timeline')
       .expect(200)
@@ -36,7 +40,7 @@ describe('API: Timeline', function() {
       })
   })
 
-  it('登录后应该返回留言列表', done => {
+  it('登录后应该返回时间轴列表', done => {
     signin(token => {
       request(app)
         .get('/api/timeline')
@@ -50,7 +54,7 @@ describe('API: Timeline', function() {
     })
   })
 
-  it('添加一条新留言', done => {
+  it('添加一条新记录', done => {
     signin(token => {
       createMessage(token, () => {
         done()
@@ -58,7 +62,7 @@ describe('API: Timeline', function() {
     })
   })
 
-  it('删除一条不存在的留言', done => {
+  it('删除一条不存在的记录', done => {
     signin(token => {
       request(app)
         .delete(`/api/timeline/37a1c660fb706285db108d97`)
@@ -73,11 +77,11 @@ describe('API: Timeline', function() {
     })
   })
 
-  it('删除一条存在的留言', done => {
+  it('删除一条存在的记录', done => {
     signin(token => {
-      createMessage(token, data => {
+      createTimeline(token, data => {
         request(app)
-          .delete(`/api/message/${data._id}`)
+          .delete(`/api/timeline/${data._id}`)
           .set('Authorization', `Bearer ${token}`)
           .expect(200)
           .end((err, res) => {
