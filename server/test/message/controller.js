@@ -57,4 +57,36 @@ describe('API: Message', function() {
       })
     })
   })
+
+  it('删除一条不存在的留言', done => {
+    signin(token => {
+      request(app)
+        .delete(`/api/message/37a1c660fb706285db108d97`)
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200)
+        .end((err, res) => {
+          expect(err).to.be.not.ok
+          expect(res.body).to.be.a('object')
+          expect(res.body.code).to.equal(Msg.noRecord.code)
+          done()
+        })
+    })
+  })
+
+  it('删除一条存在的留言', done => {
+    signin(token => {
+      createMessage(token, data => {
+        request(app)
+          .delete(`/api/message/${data._id}`)
+          .set('Authorization', `Bearer ${token}`)
+          .expect(200)
+          .end((err, res) => {
+            expect(err).to.be.not.ok
+            expect(res.body).to.be.a('object')
+            expect(res.body.code).to.equal(Msg.success.code)
+            done()
+          })
+      })
+    })
+  })
 })

@@ -63,12 +63,16 @@ $section-font-size: 26px;
 	line-height: $section-width;
 	border-radius: 50%;
 	text-align: center;
-	color: #fff;
 	margin: $section-margin;
 	font-size: $section-font-size;
 	cursor: pointer;
 	transition: all .4s ease;
 	transform: scale(.8);
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
 
   &:hover {
     animation-play-state: paused;

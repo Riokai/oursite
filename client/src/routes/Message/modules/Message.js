@@ -17,5 +17,5 @@ import { createAction, createReducer } from 'redux-act'
 const initialState = 0
 
 export default createReducer({
-
+  
 }, initialState)

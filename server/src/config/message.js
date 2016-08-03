@@ -19,8 +19,12 @@ export default {
     msg: 'token格式错误',
     code: 403
   },
-  noObjectId: {
-    msg: '缺少ObjectId',
+  noContent: {
+    msg: '不能为空',
     code: 404
+  },
+  noRecord: {
+    msg: '没有找到该条记录',
+    code: 405
   }
 }

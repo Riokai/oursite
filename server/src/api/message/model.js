@@ -7,7 +7,7 @@ var MessageSchema = new Schema({
   from: {
   	type: ObjectId,
     required: true,
-  	ref: 'User'
+    	ref: 'User'
   },
   content: {
     type: String,

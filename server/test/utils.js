@@ -7,7 +7,7 @@ export const user = {
 }
 
 export const message = {
-  content: 'test'
+  content: '12345'
 }
 
 export function signin (cb) {
@@ -35,8 +35,9 @@ export function createMessage (token, cb) {
     .end((err, res) => {
       expect(err).to.be.not.ok
       expect(res).to.be.a('object')
-      expect(res.body.code).to.equal(Msg.noObjectId.code)
-
-      cb(res)
+      expect(res.body.code).to.equal(Msg.success.code)
+      expect(res.body.data).to.be.a('object')
+      expect(res.body.data.content).to.equal(message.content)
+      cb(res.body.data)
     })
 }
