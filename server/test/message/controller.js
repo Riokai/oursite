@@ -1,67 +1,60 @@
 import should from 'should'
 import User from '../../src/api/user/model'
+import Msg from '../../src/config/message'
+import { signin, createMessage } from '../utils'
 
 describe('API: Message', function() {
 
-  before(function(done) {
+  beforeEach((done) => {
     // Clear users before testing
     User.remove().exec().then(function() {
       done()
     })
   })
 
-  it('未登录请求留言列表应该返回401未授权', function(done) {
+  it('未登录请求留言列表应该返回错误', (done) => {
     request(app)
       .get('/api/message')
       .expect(200)
       .expect('Content-Type', /json/)
-      .end(function(err, res) {
-        if (err) return done(err)
-        res.body.should.be.instanceof(Object)
+      .end((err, res) => {
+        expect(err).to.be.not.ok
+        expect(res.body.code).to.equal(Msg.noToken.code)
         done()
       })
   })
 
-  it('未登录新增一条留言应该返回401未授权', function(done) {
+  it('未登录新增一条留言应该返回未授权', (done) => {
     request(app)
       .post('/api/message')
       .expect(200)
       .expect('Content-Type', /json/)
-      .end(function(err, res) {
-        if (err) return done(err)
-        res.body.should.be.instanceof(Object)
+      .end((err, res) => {
+        expect(err).to.be.not.ok
+        expect(res.body.code).to.equal(Msg.noToken.code)
         done()
       })
   })
 
-  it('登录后应该返回留言列表', function (done) {
-    var user = {
-      email: 'zengkai@hotmail.com',
-      nickname: 'Kai',
-      password: '12345678'
-    }
+  it('登录后应该返回留言列表', done => {
+    signin(token => {
+      request(app)
+        .get('/api/message')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200)
+        .end((err, res) => {
+          if (err) return done(err)
+          expect(res.body).to.be.an('object')
+          done()
+        })
+    })
+  })
 
-    request(app)
-      .post('/api/user')
-      .type('json')
-      .send(user)
-      .expect(200)
-      .end((err, res) => {
-        const token = res.body.token
-
-        expect(err).to.not.be.ok
-        expect(token).to.be.a('string')
-        expect(token).to.have.lengthOf(172)
-
-        request(app)
-          .get('/api/message')
-          .set('Authorization', `Bearer ${token}`)
-          .expect(200)
-          .end((err, res) => {
-            if (err) return done(err)
-            expect(res.body).to.be.an('array')
-            done()
-          })
+  it('添加一条新留言', done => {
+    signin(token => {
+      createMessage(token, () => {
+        done()
       })
+    })
   })
 })

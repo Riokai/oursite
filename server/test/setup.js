@@ -1,4 +1,5 @@
 // import should from 'should'
+require('es6-promise').polyfill()
 import request from 'supertest'
 // import { app, server } from '../src/app'
 import app from '../src/app'

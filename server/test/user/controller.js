@@ -1,8 +1,10 @@
 import User from '../../src/api/user/model'
 import Msg from '../../src/config/message'
+import { user, signin } from '../utils'
+
 
 describe('API: User', () => {
-  before((done) => {
+  beforeEach((done) => {
     User.remove().exec().then(() => {
       done()
     })
@@ -39,8 +41,48 @@ describe('API: User', () => {
       })
   })
 
-  it('登录一个错误的用户名或者密码', done => {
-    // request(app)
-    //   .get('/api/user/me')
+  it('注册一个用户', done => {
+    request(app)
+      .post('/api/user')
+      .send(user)
+      .expect(200)
+      .end((err, res) => {
+        expect(err).to.be.not.ok
+        expect(res.body.data.token).to.be.a('string')
+
+        done()
+      })
+  })
+
+  it('重复注册应该返回失败', done => {
+    signin(token => {
+      request(app)
+        .post('/api/user')
+        .send(user)
+        .expect(200)
+        .end((err, res) => {
+          expect(err).to.be.not.ok
+          expect(res.body.code).to.equal(Msg.existUser.code)
+          done()
+        })
+    })
+  })
+
+  it('登录一个已经注册的账号', done => {
+    signin(token => {
+      request(app)
+        .post('/auth/local')
+        .send({
+          email: user.email,
+          password: user.password
+        })
+        .expect(200)
+        .end((err, res) => {
+          expect(err).to.be.not.ok
+          expect(res.body).to.be.a('object')
+          expect(res.body.data.token).to.be.a('string')
+          done()
+        })
+    })
   })
 })

@@ -6,9 +6,13 @@ var mongoose = require('mongoose'),
 var MessageSchema = new Schema({
   from: {
   	type: ObjectId,
+    required: true,
   	ref: 'User'
   },
-  content: String,
+  content: {
+    type: String,
+    required: true
+  },
   createTime: {
   	type: String,
   	default: null
@@ -16,11 +20,11 @@ var MessageSchema = new Schema({
   children: [{
   	from: {
   		type: ObjectId,
-  		ref: 'user'
+  		ref: 'User'
   	},
   	to: {
   		type: ObjectId,
-  		ref: 'user'
+  		ref: 'User'
   	},
   	content: String,
   	createTime: {

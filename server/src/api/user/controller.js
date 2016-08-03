@@ -2,9 +2,10 @@ import passport from 'passport'
 import jwt from 'jsonwebtoken'
 import User from './model'
 import { signToken } from '../../auth/service'
+import Msg from '../../config/message'
 
 const validationError = function(res, err) {
-  return res.status(422).json(err)
+  return res.status(200).json(Msg.existUser)
 }
 
 /**
@@ -32,7 +33,12 @@ export function create (req, res) {
 
     const token = signToken(user._id)
 
-    res.json({ token })
+    res.json({
+      ...Msg.success,
+      data: {
+        token
+      }
+    })
   })
 }
 

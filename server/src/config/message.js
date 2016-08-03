@@ -18,6 +18,9 @@ export default {
   errorTokenFormat: {
     msg: 'token格式错误',
     code: 403
+  },
+  noObjectId: {
+    msg: '缺少ObjectId',
+    code: 404
   }
-
 }

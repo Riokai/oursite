@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import Message from './model'
+import Msg from '../../config/message'
 
 export function query (req, res) {
   Message
@@ -8,7 +9,10 @@ export function query (req, res) {
     .sort({'meta.createAt':-1})
     .exec(function(err, messages) {
     if(err) { return handleError(res, err); }
-      return res.status(200).json(messages);
+      return res.status(200).json({
+        ...Msg.success,
+        data: messages
+      });
     })
 };
 
@@ -25,9 +29,12 @@ export function query (req, res) {
 export function create (req, res) {
   Message.create(req.body, function(err, message) {
     if(err) { return handleError(res, err); }
-    return res.status(201).json(message);
-  });
-};
+    return res.status(200).json({
+      ...Msg.success,
+      data: message
+    })
+  })
+}
 
 // Updates an existing message in the DB.
 // exports.update = function(req, res) {
@@ -58,5 +65,18 @@ export function destroy (req, res) {
 };
 
 function handleError(res, err) {
-  return res.status(500).send(err);
+  let message
+
+  if (err.name === 'ValidationError') {
+    for (let error in err.errors) {
+      if (error === 'from' && err.errors[error].kind === 'required') {
+        message = Msg.noObjectId
+      }
+    }
+
+    return res.status(200).send(message)
+  } else {
+    return res.status(500).send(err)
+  }
+
 }

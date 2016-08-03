@@ -2,6 +2,7 @@
 
 import mongoose from 'mongoose'
 import crypto from 'crypto'
+import { signToken } from '../../auth/service'
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
@@ -45,10 +46,7 @@ UserSchema
 UserSchema
   .virtual('token')
   .get(function() {
-    return {
-      '_id': this._id,
-      'role': this.role
-    }
+    return signToken(this._id)
   })
 
 /**
