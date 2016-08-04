@@ -1,34 +1,37 @@
 import should from 'should'
 import Module from '../../src/api/module/model'
+import Msg from '../../src/config/message'
 
 describe('API: Module', function() {
 
-  before(function(done) {
-    Module.remove().exec().then(function() {
+  before((done) => {
+    Module.remove().exec().then(() => {
       done()
     });
   })
 
-  afterEach(function(done) {
-    Module.remove().exec().then(function() {
+  afterEach((done) => {
+    Module.remove().exec().then(() => {
       done()
     })
   })
 
-  it('读取所有模块', function(done) {
+  it('读取所有模块', (done) => {
     request(app)
       .get('/api/module')
       .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
-        if (err) return done(err)
-        res.body.should.be.instanceof(Array)
+        expect(err).to.be.not.ok
+        expect(res.body).to.be.a('object')
+        expect(res.body.code).to.equal(Msg.success.code)
+        expect(res.body.data).to.be.a('array')
         done()
       })
   })
 
 
-  it('保存一个合法模块应该成功', function (done) {
+  it('保存一个合法模块应该成功', (done) => {
     var module = {
       name: '时光轴',
       href: 'http://www.baidu.com',
@@ -49,7 +52,7 @@ describe('API: Module', function() {
       })
   })
 
-  it('更新一个合法模块应该成功', function (done) {
+  it('更新一个合法模块应该成功', (done) => {
     var module = {
       name: '时光轴',
       href: 'http://www.baidu.com',
@@ -64,7 +67,7 @@ describe('API: Module', function() {
       .send(module)
       .expect(201)
       .expect('Content-Type', /json/)
-      .end(function(err, res) {
+      .end((err, res) => {
         if (err) return done(err)
 
         id = res.body._id
@@ -77,7 +80,7 @@ describe('API: Module', function() {
           })
           .expect(200)
           .expect('Content-Type', /json/)
-          .end(function(err, res) {
+          .end((err, res) => {
             if (err) return done(err)
 
             should.not.exist(err)

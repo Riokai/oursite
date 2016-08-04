@@ -6,6 +6,8 @@ import errorHandler from 'errorHandler'
 import path from 'path'
 import compression from 'compression'
 import passport from 'passport'
+import multer from 'multer'
+import responseTime from 'response-time'
 
 const env = process.env.NODE_ENV
 
@@ -17,6 +19,9 @@ export default function (app) {
   app.use(methodOverride())
   app.use(passport.initialize())
   app.use(errorHandler())
+  app.use(responseTime())
+
+  if (env === 'production') {}
 
   if (env === 'development') {
     app.use(morgan('dev'))

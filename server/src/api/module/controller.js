@@ -1,11 +1,15 @@
 import _ from 'lodash'
 import Module from './model'
+import Msg from '../../config/message'
 
 // Get list of modules
 export function query (req, res) {
   Module.find(function (err, modules) {
     if(err) { return handleError(res, err) }
-    return res.status(200).json(modules)
+    return res.status(200).json({
+      ...Msg.success,
+      data: modules
+    })
   })
 }
 
