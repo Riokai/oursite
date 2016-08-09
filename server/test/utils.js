@@ -24,6 +24,7 @@ export function signin (cb) {
       expect(err).to.be.not.ok
 
       expect(res).to.be.a('object')
+      expect(res.body.code).to.equal(Msg.success.code)
       const token = res.body.data.token
       expect(token).to.be.a('string')
       expect(token).to.have.lengthOf(172)
