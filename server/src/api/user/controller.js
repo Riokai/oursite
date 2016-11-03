@@ -5,6 +5,7 @@ import { signToken } from '../../auth/service'
 import Msg from '../../config/message'
 
 const validationError = function(res, err) {
+  console.log('err', err)
   return res.status(200).json(Msg.existUser)
 }
 

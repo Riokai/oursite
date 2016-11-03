@@ -10,10 +10,5 @@ export default {
   },
   secrets: {
     session: 'oursite'
-  },
-  qiniu: {
-    AccessKey: 'oxBowt2F4le6E0e6fobAIJ1VRH0JucG_hdkU7x8j',
-    SecretKey: 'NGiqHBhMj5-hD0HW9uDc186VddU7ftKzbxldCWQ8',
-    bucket: 'riosite'
   }
 }
