@@ -9,7 +9,7 @@ class Counter extends Component {
       data: {
         token: 'oxBowt2F4le6E0e6fobAIJ1VRH0JucG_hdkU7x8j:CvN7Wve2ovvpEVmAIqvMY-ETXx0=:eyJzY29wZSI6InJpb3NpdGUiLCJkZWFkbGluZSI6MTQ3MDU0NjQ1OH0='
       },
-      onChange(info) {
+      onChange (info) {
         if (info.file.status !== 'uploading') {
           console.log(info.file, info.fileList)
         }
