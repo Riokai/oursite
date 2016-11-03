@@ -58,6 +58,33 @@ describe('API: Message', function() {
     })
   })
 
+  it('添加一条子留言', done => {
+    signin(token => {
+      createMessage(token, data => {
+        const parentId = data._id
+        const subMessage = {
+          content: 'a sub message'
+        }
+
+        request(app)
+          .post(`/api/message/${parentId}`)
+          .set('Authorization', `Bearer ${token}`)
+          .send(subMessage)
+          .expect(200)
+          .end((err, res) => {
+            expect(err).to.be.not.ok
+            expect(res.body.code).to.equal(Msg.success.code)
+            expect(res.body.data.children).to.be.a('array')
+
+            done()
+          })
+
+      })
+    })
+  })
+
+  // it('删除一条子留言')
+
   it('删除一条不存在的留言', done => {
     signin(token => {
       request(app)

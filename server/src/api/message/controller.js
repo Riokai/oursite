@@ -9,22 +9,22 @@ export function query (req, res) {
     .populate('from')
     .sort({'meta.createAt':-1})
     .exec(function(err, messages) {
-    if(err) { return handleError(res, err); }
+    if(err) { return handleError(res, err) }
       return res.status(200).json({
         ...Msg.success,
         data: messages
-      });
+      })
     })
-};
+}
 
 // Get a single message
 // exports.show = function(req, res) {
 //   Message.findById(req.params.id, function (err, message) {
-//     if(err) { return handleError(res, err); }
-//     if(!message) { return res.status(404).send('Not Found'); }
-//     return res.json(message);
-//   });
-// };
+//     if(err) { return handleError(res, err) }
+//     if(!message) { return res.status(404).send('Not Found') }
+//     return res.json(message)
+//   })
+// }
 
 // Creates a new message in the DB.
 export function create (req, res) {
@@ -40,19 +40,45 @@ export function create (req, res) {
   })
 }
 
+// 添加一条子记录
+export function appendChild (req, res) {
+  const parentId = req.params.id
+  const childMessage = req.body
+
+  Message
+    .findById(parentId)
+    .exec()
+    .then(message => {
+      if (!message.children)  message.children = []
+
+      message.children.push({
+        ...childMessage
+      })
+
+      return message.save()
+    })
+    .then(message => res.status(200).json({
+      ...Msg.success,
+      data: message
+    }))
+    .catch(err => {
+      console.log('err', err)
+    })
+}
+
 // Updates an existing message in the DB.
 // exports.update = function(req, res) {
-//   if(req.body._id) { delete req.body._id; }
+//   if(req.body._id) { delete req.body._id }
 //   Message.findById(req.params.id, function (err, message) {
-//     if (err) { return handleError(res, err); }
-//     if(!message) { return res.status(404).send('Not Found'); }
-//     var updated = _.merge(message, req.body);
+//     if (err) { return handleError(res, err) }
+//     if(!message) { return res.status(404).send('Not Found') }
+//     var updated = _.merge(message, req.body)
 //     updated.save(function (err) {
-//       if (err) { return handleError(res, err); }
-//       return res.status(200).json(message);
-//     });
-//   });
-// };
+//       if (err) { return handleError(res, err) }
+//       return res.status(200).json(message)
+//     })
+//   })
+// }
 
 // Deletes a message from the DB.
 export function destroy (req, res) {
