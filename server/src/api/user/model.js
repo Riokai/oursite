@@ -83,6 +83,7 @@ UserSchema
 }, 'The specified email address is already in use.')
 
 var validatePresenceOf = function(value) {
+  console.log('value', value);
   return value && value.length
 }
 

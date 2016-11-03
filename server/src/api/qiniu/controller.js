@@ -1,11 +1,11 @@
 import qiniu from 'qiniu'
 import Msg from '../../config/message'
-import config from '../../config/environment'
+import config from '../../config/qiniu'
 
-qiniu.conf.ACCESS_KEY = config.qiniu.AccessKey
-qiniu.conf.SECRET_KEY = config.qiniu.SecretKey
+qiniu.conf.ACCESS_KEY = config.AccessKey
+qiniu.conf.SECRET_KEY = config.SecretKey
 
-const upToken = new qiniu.rs.PutPolicy(config.qiniu.bucket)
+const upToken = new qiniu.rs.PutPolicy(config.bucket)
 
 export function query (req, res) {
   const token = upToken.token()
