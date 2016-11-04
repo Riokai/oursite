@@ -8,4 +8,5 @@ coverage
 
 .idea/
 
+.DS_Store
 src/config/qiniu.js
