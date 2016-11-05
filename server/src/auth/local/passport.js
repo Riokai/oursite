@@ -1,5 +1,6 @@
 import passport from 'passport'
 import { Strategy as LocalStrategy} from 'passport-local'
+import Msg from '../../config/message'
 
 export function setup (User, config) {
   passport.use(new LocalStrategy({
@@ -13,12 +14,12 @@ export function setup (User, config) {
         if (err) return done(err)
 
         if (!user) {
-          return done(null, false, { message: 'This email is not registered.' })
+          return done(null, false, Msg.noRegister)
         }
         if (!user.authenticate(password)) {
           return done(null, false, { message: 'This password is not correct.' })
         }
-        
+
         return done(null, user)
       })
     }

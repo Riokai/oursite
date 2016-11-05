@@ -26,5 +26,9 @@ export default {
   noRecord: {
     msg: '没有找到该条记录',
     code: 405
+  },
+  noRegister: {
+    msg: '未注册的用户',
+    code: 406
   }
 }
