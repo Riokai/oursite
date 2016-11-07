@@ -17,7 +17,7 @@ export function setup (User, config) {
           return done(null, false, Msg.noRegister)
         }
         if (!user.authenticate(password)) {
-          return done(null, false, { message: 'This password is not correct.' })
+          return done(null, false, { msg: '密码不正确' })
         }
 
         return done(null, user)

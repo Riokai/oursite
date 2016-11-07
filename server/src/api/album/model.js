@@ -8,8 +8,12 @@ const AlbumSchema = new Schema({
     required: true
   },
   children: [{
-    url: {
+    hash: {
       type: String
+    },
+    intro: {
+      type: String,
+      default: ''
     }
   }],
   meta: {
